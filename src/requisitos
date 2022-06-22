@@ -1,0 +1,22 @@
+/* Id: Inteiro;
+Code: string;
+Name: String;
+Description: String;
+Image: String;
+Price: Double;
+Category: String;
+Quantify: Inteiro;
+InvetoryStatus: String;
+Rating: Inteiro;
+
+Regras e Restrições
+
+Code : (Min 5, Max. 10)
+Name: (Min 3, Max. 255)
+Description: (Min 3, Max, 255)
+Image: pode ser Nullo.
+Price: Formato no Padrão BRL (BRASiL)
+Category: Dropdwn ou algum componente de lista
+Quantity: so deve aceitar numeros IntersectionObserver;
+inventory Status: Dropdown ou algu, ccomponente de lista
+Rating: Deve Usar o componente de nota ou algo parecido: */ 
