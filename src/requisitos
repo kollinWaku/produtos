@@ -18,5 +18,5 @@ Image: pode ser Nullo.
 Price: Formato no Padrão BRL (BRASiL)
 Category: Dropdwn ou algum componente de lista
 Quantity: so deve aceitar numeros IntersectionObserver;
-inventory Status: Dropdown ou algu, ccomponente de lista
+inventory Status: Dropdown ou algu, componente de lista
 Rating: Deve Usar o componente de nota ou algo parecido: */ 

@@ -4,9 +4,9 @@
 
   <form
     @submit.prevent="confirm1(!v$.$invalid)"
-    class="flex flex-wrap align-items-center justify-content-center"
+    class="flex align-items-center justify-content-center"
   >
-    <Card class="m-8 lg-12 xl-12 bg-bluegray-200 opacity-90">
+    <Card class="m-10 lg-12 x1-10 bg-bluegray-200 opacity-90">
       <template #title>
         <h2 class="text-center">
           Formulário de Aquisação de novos equipamentos da SESPA
@@ -19,7 +19,7 @@
             <div class="field">
               <InputText
                 id="inputtext"
-                v-model="v$.nomedoProduto.$model"
+                v-model="name"
                 placeholder="Nome do produto"
               />
             </div>
@@ -28,23 +28,27 @@
             <div class="field">
               <InputText
                 id="InputText"
-                v-model="v$.codigodoProduto"
+                v-model="code"
                 placeholder="Codigo do Produto"
               />
             </div>
           </div>
-          <div class="md:col-6 lg:col-6 xl:col-6 col-12">
+          <div class="md:col-6 lg:-6 col-6">
             <div class="field">
-              <h5>Descrição do Produto</h5>
-              <Textarea v-model="descricaodoProduto" rows="5" cols="30" />
+              <label for="descricaodoProduto">Descrição do Produto</label>
+              <Textarea
+                v-model="description"
+                rows="5"
+                cols="30"
+              />
             </div>
           </div>
           <div class="md:col-6 lg:col-6 grid p-fluid">
             <div class="field">
-              <label for="integeronly">Preço</label>
+              <label for="price">Preço</label>
               <InputNumber
-                id="integeronly-us"
-                v-model="preco"
+                id="price"
+                v-model="price"
                 mode="currency"
                 currency="BRL"
                 locale="pt-BR"
@@ -54,14 +58,35 @@
           </div>
           <div class="md:col-6 lg:col-6 xl:col-6 col-12">
             <div class="field">
-              <p>Data da coleta</p>
-              <Calendar
-                v-model="data"
-                dateFormat="dd/mm/yy"
-                :showButtonBar="true"
-                showIcon="true"
+              <Dropdown
+                v-model="choosecategory"
+                :options="category"
+                optionLabel="name"
+                placeholder=" Escolha a categoria desejada"
               />
             </div>
+          </div>
+          <div class="field col-6 md:col-6">
+            <label for="minmax-buttons">Quantidade</label>
+            <InputNumber
+              id="quantidade"
+              v-model="v$.quantidade.$model"
+              showButtons
+              :min="0"
+              :max="25"
+            />
+          </div>
+          <div>
+            <h5>Avalie o nosso site!</h5>
+            <Rating v-model="Rating" />
+          </div>
+          <div class="field col-6 md:col-6">
+            <Dropdown
+              v-model="selectionInventory"
+              :options="Inventory"
+              optionLabel="name"
+              placeholder="Selecionar o objeto que você deseja"
+            />
           </div>
         </div>
       </template>
@@ -71,7 +96,7 @@
           <Button
             @click="confirm1()"
             icon="pi pi-check"
-            label="Salvar"
+            label="Enviar"
             class="mr-2"
           ></Button>
           <Button
@@ -97,24 +122,44 @@ export default {
   },
   data() {
     return {
-      nomedoProduto: "",
-      codigodoProduto: "",
-      descricaodoProduto: "",
-      preco: '',
+      id: null,
+      name: null,
+      code: null,
+      description: null,
+      price: null,
+      quantity: null,
+      rating: null,
+      selectionInventory: null,
 
-      data: null,
       submitted: false,
-      
 
-      
+      choosecategory: null,
+
+      category: [
+        { name: "Desktop" },
+        { name: "Monitor" },
+        { name: "Teclado" },
+        { name: "Mouse" },
+        { name: "No-break" },
+      ],
+
+      inventory: [
+        { name: "Em estoque" },
+        { name: "Fora de estoque" },
+        { name: "Em alta" },
+      ],
     };
   },
   validations() {
     return {
-      nomedoProduto: { required },
-      codigodoProduto: { required },
-      descricaodoProduto: { required },
+      name: { required },
+      code: { required },
+      description: { required },
       preco: { required },
+      escolherCategoria: { required },
+      quantidade: { required },
+      avalicao: { required },
+      selecionarInventario: { required },
     };
   },
   methods: {
@@ -130,8 +175,8 @@ export default {
       } else {
         this.$toast.add({
           severity: "info",
-          summary: "Confirmado a data da coleta",
-          detail: "O dia da coleta, foi foi agendada!",
+          summary: "o seu pedido foi enviado, e iremos analisar o seu pedido",
+          detail: "Iremos Analisar o seu pedido.",
           life: 3000,
         });
         this.resetar();
@@ -139,36 +184,41 @@ export default {
     },
     confirm2() {
       this.$confirm.require({
-        message: "Você deseja excluir, os arquivos gravados até agora?",
-        header: "opção de excluir",
+        message: "Você deseja cancelar o seu pedido?",
+        header: "Cancelamento de pedido",
         icon: "pi pi-info-circle",
         acceptClass: "p-button-danger",
         accept: () => {
           this.resetar();
           this.$toast.add({
             severity: "info",
-            summary: "Você confirmou para excluir os dados gravados!",
-            detail: "Excluindo os dados gravados",
+            summary: "Você confirmou o cancelamento de pedido",
+            detail: "Cancelando o seu pedido e excluindo os dados gravados",
             life: 3000,
           });
+          this.resetar();
         },
         reject: () => {
           this.$toast.add({
             severity: "error",
             summary: "Cancelar a exclusão de dados",
-            detail: "Você cancelou a operação de exclusão de dados",
+            detail: "Voltando para formulario",
             life: 3000,
           });
         },
       });
     },
     resetar() {
-      this.nomedoproduto = null;
-      this.codigodoProduto = null;
-      this.descricaodoProduto = null;
-      this.preco = null;
-      this.data = null;
+      this.name = null;
+      this.code = null;
+      this.description = null;
+      this.price = null;
+      this.choosecategory = null;
+      this.quantity = null;
+      this.rating = null;
+      this.selectionInventory = null;
     },
+    
   },
   //fim dos metodos
 };

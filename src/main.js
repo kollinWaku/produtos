@@ -14,7 +14,8 @@ import ConfirmDialog from 'primevue/confirmdialog';
 import Message from 'primevue/message';
 import DataTable from 'primevue/datatable';
 import Textarea from 'primevue/textarea';
-
+import Rating from 'primevue/rating';
+import FileUpload from 'primevue/fileupload';
 
 
 import Button from 'primevue/button';
@@ -53,5 +54,7 @@ app.component('Message', Message);
 app.component('DataTable', DataTable);
 app.component('InputNumber', InputNumber);
 app.component('Textarea', Textarea);
+app.component('Rating', Rating);
+app.component('FileUpload', FileUpload);
 
 app.mount('#app')
