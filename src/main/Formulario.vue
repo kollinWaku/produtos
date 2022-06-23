@@ -70,7 +70,7 @@
             <label for="minmax-buttons">Quantidade</label>
             <InputNumber
               id="quantidade"
-              v-model="v$.quantidade.$model"
+              v-model="quantity"
               showButtons
               :min="0"
               :max="25"
@@ -127,13 +127,12 @@ export default {
       code: null,
       description: null,
       price: null,
+      choosecategory: null,
       quantity: null,
       rating: null,
       selectionInventory: null,
 
       submitted: false,
-
-      choosecategory: null,
 
       category: [
         { name: "Desktop" },
@@ -155,11 +154,11 @@ export default {
       name: { required },
       code: { required },
       description: { required },
-      preco: { required },
-      escolherCategoria: { required },
-      quantidade: { required },
-      avalicao: { required },
-      selecionarInventario: { required },
+      price: { required },
+      choosecategory: { required },
+      quantity: { required },
+      rating: { required },
+      selectionInventory: { required },
     };
   },
   methods: {
