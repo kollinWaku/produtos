@@ -6,67 +6,55 @@
     @submit.prevent="confirm1(!v$.$invalid)"
     class="flex align-items-center justify-content-center"
   >
-    <Card class="m-10 lg-12 x1-10 bg-bluegray-200 opacity-90">
+    <Card style="width: 100rem; margin-bottom: 2em">
       <template #title>
         <h2 class="text-center">
           Formulário de Aquisação de novos equipamentos da SESPA
         </h2>
       </template>
-      >
       <template #content>
-        <div class="grid p-fluid">
-          <div class="col-6 md:col-6 lg:col-6 xl:col-6">
-            <div class="field">
-              <InputText
-                id="inputtext"
-                v-model="name"
-                placeholder="Nome do produto"
-              />
-            </div>
+        <div class="grid p-fluid col-12">
+          <div class="field col-12 md:col-4">
+            <InputText
+              id="inputtext"
+              v-model="name"
+              placeholder="Nome do produto"
+            />
           </div>
-          <div class="md:col-6 lg:col-6 xl:col-6 col-12">
-            <div class="field">
-              <InputText
-                id="InputText"
-                v-model="code"
-                placeholder="Codigo do Produto"
-              />
-            </div>
+          <div class="field col-12 md:col-4">
+            <InputText
+              id="InputText"
+              v-model="code"
+              placeholder="Codigo do Produto"
+            />
           </div>
-          <div class="md:col-6 lg:-6 col-6">
-            <div class="field">
-              <label for="descricaodoProduto">Descrição do Produto</label>
-              <Textarea
-                v-model="description"
-                rows="5"
-                cols="30"
-              />
-            </div>
+          <div class="field col-12 md:col-4">
+            <Dropdown
+              v-model="choosecategory"
+              :options="category"
+              optionLabel="name"
+              placeholder=" Escolha a categoria desejada"
+            />
           </div>
-          <div class="md:col-6 lg:col-6 grid p-fluid">
-            <div class="field">
-              <label for="price">Preço</label>
-              <InputNumber
-                id="price"
-                v-model="price"
-                mode="currency"
-                currency="BRL"
-                locale="pt-BR"
-                placeholder="Preço do Produto"
-              />
-            </div>
+        </div>
+
+        <div class="grid p-fluid col-12">
+          <div class="field col-12 md:col-4">
+            <label for="descricaodoProduto">Descrição do Produto</label>
+            <Textarea v-model="description" rows="1" cols="30" />
           </div>
-          <div class="md:col-6 lg:col-6 xl:col-6 col-12">
-            <div class="field">
-              <Dropdown
-                v-model="choosecategory"
-                :options="category"
-                optionLabel="name"
-                placeholder=" Escolha a categoria desejada"
-              />
-            </div>
+          <div class="field col-12 md:col-4">
+            <label for="price">Preço</label>
+            <InputNumber
+              id="price"
+              v-model="price"
+              mode="currency"
+              currency="BRL"
+              locale="pt-BR"
+              placeholder="Preço do Produto"
+            />
           </div>
-          <div class="field col-6 md:col-6">
+          <div class="field col-12 md:col-4">
             <label for="minmax-buttons">Quantidade</label>
             <InputNumber
               id="quantidade"
@@ -76,18 +64,24 @@
               :max="25"
             />
           </div>
-          <div>
-            <h5>Avalie o nosso site!</h5>
-            <Rating v-model="Rating" />
-          </div>
-          <div class="field col-6 md:col-6">
+        </div>
+
+        <div class="grid p-fluid col-12">
+          <div class="field col-12 md:col-4">
             <Dropdown
-              v-model="selectionInventory"
-              :options="Inventory"
-              optionLabel="name"
-              placeholder="Selecionar o objeto que você deseja"
-            />
+            v-model="selectionInventory"
+            :options="inventory"
+            optionLabel="name"
+            placeholder="Selecionar o objeto que você deseja"
+          />
           </div>
+          <div class="field col-12 md:col-8">
+            <div>
+          <h4>Avalie o seu pedido</h4>
+          <Rating v-model="Rating" />
+        </div>
+          </div>
+
         </div>
       </template>
 
@@ -217,7 +211,6 @@ export default {
       this.rating = null;
       this.selectionInventory = null;
     },
-    
   },
   //fim dos metodos
 };
