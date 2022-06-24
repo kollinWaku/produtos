@@ -17,71 +17,113 @@
           <div class="field col-12 md:col-4">
             <InputText
               id="inputtext"
-              v-model="name"
+              v-model="v$.name.$model"
+              :class="{ 'p-invalid': v$.name.$invalid && submitted }"
               placeholder="Nome do produto"
             />
+            <span v-if="v$.name.$error || v$.name.$pending">
+              Este Campo é requerido.</span
+            >
           </div>
+
           <div class="field col-12 md:col-4">
             <InputText
               id="InputText"
-              v-model="code"
+              v-model="v$.code.$model"
+              :class="{ 'p-invalid': v$.code.$invalid && submitted }"
               placeholder="Codigo do Produto"
             />
+            <span v-if="v$.code.$error || v$.code.$pending">
+              Este Campo é requerido.</span
+            >
           </div>
           <div class="field col-12 md:col-4">
             <Dropdown
-              v-model="choosecategory"
+              v-model="v$.choosecategory.$model"
+              :class="{ 'p-invalid': v$.code.$invalid && submitted }"
               :options="category"
               optionLabel="name"
               placeholder=" Escolha a categoria desejada"
             />
+            <span v-if="v$.choosecategory.$error || v$.choosecategory.$pending">
+              Este Campo é requerido.</span
+            >
           </div>
         </div>
 
         <div class="grid p-fluid col-12">
           <div class="field col-12 md:col-4">
             <label for="descricaodoProduto">Descrição do Produto</label>
-            <Textarea v-model="description" rows="1" cols="30" />
+            <Textarea
+              v-model="v$.description.$model"
+              :class="{ 'p-invalid': v$.description.$invalid && submitted }"
+              rows="1"
+              cols="30"
+            />
+            <span v-if="v$.description.$error || v$.description.$pending">
+              Este Campo é requerido.</span
+            >
           </div>
           <div class="field col-12 md:col-4">
             <label for="price">Preço</label>
             <InputNumber
               id="price"
-              v-model="price"
+              v-model="v$.price.$model"
+              :class="{ 'p-invalid': v$.price.$invalid && submitted }"
               mode="currency"
               currency="BRL"
               locale="pt-BR"
               placeholder="Preço do Produto"
             />
+            <span v-if="v$.price.$error || v$.price.$pending">
+              Este Campo é requerido.</span
+            >
           </div>
           <div class="field col-12 md:col-4">
             <label for="minmax-buttons">Quantidade</label>
             <InputNumber
               id="quantidade"
-              v-model="quantity"
+              v-model="v$.quantity.$model"
+              :class="{ 'p-invalid': v$.quantity.$invalid && submitted }"
               showButtons
               :min="0"
               :max="25"
             />
+            <span v-if="v$.quantity.$error || v$.quantity.$pending">
+              Este Campo é requerido.</span
+            >
           </div>
         </div>
 
         <div class="grid p-fluid col-12">
           <div class="field col-12 md:col-4">
             <Dropdown
-            v-model="selectionInventory"
-            :options="inventory"
-            optionLabel="name"
-            placeholder="Selecionar o objeto que você deseja"
-          />
+              v-model="v$.selectionInventory.$model"
+              :class="{ 'p-invalid': v$.selectionInventory.$invalid && submitted }"
+              :options="inventory"
+              optionLabel="name"
+              placeholder="Selecionar o objeto que você deseja"
+            />
+            <span
+              v-if="
+                v$.selectionInventory.$error || v$.selectionInventory.$pending
+              "
+            >
+              Este Campo é requerido.</span
+            >
           </div>
           <div class="field col-12 md:col-8">
             <div>
-          <h4>Avalie o seu pedido</h4>
-          <Rating v-model="Rating" />
-        </div>
+              <h4>Avalie o seu pedido</h4>
+              <rating
+                v-model="v$.rating.$model"
+                :class="{ 'p-invalid': v$.rating.$invalid && submitted }"
+              />
+              <span v-if="v$.rating.$error || v$.rating.$pending">
+                Este Campo é requerido.</span
+              >
+            </div>
           </div>
-
         </div>
       </template>
 
@@ -108,7 +150,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, minLength, maxLength } from "@vuelidate/validators";
 
 export default {
   setup() {
@@ -145,9 +187,13 @@ export default {
   },
   validations() {
     return {
-      name: { required },
-      code: { required },
-      description: { required },
+      name: { required, minLength: minLength(3), maxLength: maxLength(255) },
+      code: { required, minLength: minLength(5), maxLength: maxLength(10) },
+      description: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(255),
+      },
       price: { required },
       choosecategory: { required },
       quantity: { required },
